@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Letras Didacticas Online</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    #fondo{
+      background-image: url("https://images.app.gpp.gl/7AXGwJ8DzKmPwQY67");
+      background-size: cover;
+      background-position: center;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #fff;
+      background-color: #0099cc;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    
+    #quiz-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-image: url("https://images.app.gpp.gl/7AXGwJ8DzKmPwQY67");
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    #options {
+      margin-top: 20px;
+    }
+    
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-align: left;
+      background-color: #0099cc;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #0077b3;
+    }
+    
+    button:active {
+      background-color: #005c99;
+    }
+    
+    #result-container {
+      display: none;
+      max-width: 500px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    
+    #result {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    #restart-btn {
+      padding: 10px 20px;
+      background-color: #0099cc;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    #restart-btn:hover {
+      background-color: #0077b3;
+    }
+    
+    #restart-btn:active {
+      background-color: #005c99;
+    }
+    
+    @media screen and (max-width: 600px) {
+      body {
+        padding: 10px;
+        background-image: url("https://images.app.gpp.gl/7AXGwJ8DzKmPwQY67");
+      }
+      
+      h1 {
+        font-size: 20px;
+        padding: 8px;
+      }
+    
+      #quiz-container {
+        max-width: 400px;
+        padding: 10px;
+        background-image: url("https://images.app.gpp.gl/7AXGwJ8DzKmPwQY67");
+      }
+    
+      button {
+        padding: 8px;
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+    
+      #result-container {
+        max-width: 300px;
+        padding: 10px;
+      }
+    
+      #result {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+    
+      #restart-btn {
+        padding: 8px 15px;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+  <h1>Letras Didacticas Online</h1>
+<div id="fondo"></div>
+  <div id="quiz-container">
+    <div id="start-container">
+      <button id="start-btn">Comenzar</button>
+    </div>
+
+  <div id="quiz-container">
+    <div id="question-container">
+      <h2 id="question"></h2>
+      <div id="timer">Tiempo restante: 15 segundos</div>
+    </div>
+    
+    <div id="options"></div>
+    
+    <button id="submit-btn">Enviar</button>
+  </div>
+  
+  <div id="result-container">
+    <h2 id="result"></h2>
+    <button id="restart-btn">Reiniciar</button>
+  </div>
+  <audio id="inicio-sound">
+    <source src="audios\INICIO.mp3" type="audio/mpeg">
+  </audio>
+  
+  <script>
+    var sound = new Audio('audios\INICIO.mp3');
+
+    function selectAnswer(event) {
+
+      if (selectedOption == question.answer) {
+        score++;
+        correctSound.play();
+      } else {
+        incorrectSound.play();
+      }
+    }
+    var questions = [
+    {
+        question: "¿Cuál es la forma correcta de escribir el plural de 'luz'?",
+        options: ["a) Luzs", "b) Luces", "c) Luzes", "d) Luses"],
+        answer: 1
+    },
+    {
+        question: "¿Cuál es el nombre del famoso pintor y escultor colombiano,considerado uno de los mayores exponentes del arte moderno en América Latina?",
+        options: ["a) Diego Rivera", "b) Salvador Dalí", "c) Fernando Botero", "d) Frida Kahlo"],
+        answer: 2
+    },
+    {
+        question: "¿Cuál es el baile tradicional de la costa caribeña de Colombia, caracterizado por su ritmo alegre y contagioso?",
+        options: ["a) Vallenato", "b) Cumbia", "c) Porro", "d) Salsa"],
+        answer: 1
+    },
+    {
+        question: "¿Cuál de las siguientes palabras está escrita correctamente?",
+        options: ["a) Comensal", "b) Comenssal", "c) Comenzal", "d) Comenzsal"],
+        answer: 0
+    },
+    {
+        question: "¿Cuál de las siguientes palabras lleva una 'b' en lugar de una 'v'?",
+        options: ["a) Avezado", "b) Avesado", "c) Avezaso", "d) Avesaso"],
+        answer: 0
+    },
+    {
+        question: "¿Cuál de las siguientes palabras es un homófono de 'haya'?",
+        options: ["a) Halla", "b) Allá", "c) Haya", "d) Aya"],
+        answer: 0
+    },
+    {
+        question: "¿Cuál de las siguientes palabras es una consonante?",
+        options: ["a) A", "b) I", "c) O", "d) R"],
+        answer: 3
+    },
+    {
+        question: "¿Cuál de las siguientes palabras lleva una tilde diacrítica?",
+        options: ["a) Solo (adverbio)", "b) Solo (adjetivo)", "c) Solo (sustantivo)", "d) Solo (verbo)"],
+        answer: 0
+    },
+    {
+        question: "¿Cuál de las siguientes palabras es un hiato correctamente acentuado?",
+        options: ["a) Leido", "b) Leído", "c) Leído", "d) Leído"],
+        answer: 1
+    }
+];
+
+const levels = {
+    0: "Fácil",
+    3: "Moderado",
+    6: "Difícil"
+};
+    var currentQuestion = 0;
+    var score = 0;
+    var timer;
+    var timeLeft = 15;
+
+    var startButton = document.getElementById("start-btn");
+startButton.addEventListener("click", startQuiz);
+
+function startQuiz() {
+  startButton.style.display = "none"; 
+  showNextQuestion();
+}
+
+    var questionElement = document.getElementById("question");
+    var optionsElement = document.getElementById("options");
+    var submitButton = document.getElementById("submit-btn");
+    var resultElement = document.getElementById("result");
+    var resultContainer = document.getElementById("result-container");
+    var restartButton = document.getElementById("restart-btn");
+    var timerElement = document.getElementById("timer");
+
+    function showNextQuestion() {
+      resetTimer();
+      
+      var question = questions[currentQuestion];
+      questionElement.textContent = question.question;
+
+      optionsElement.innerHTML = "";
+
+      for (var i = 0; i < question.options.length; i++) {
+        var option = document.createElement("button");
+        option.textContent = question.options[i];
+        option.value = i;
+        option.addEventListener("click", selectAnswer);
+        optionsElement.appendChild(option);
+      }
+
+      startTimer();
+    }
+
+    function selectAnswer(event) {
+      var selectedOption = event.target.value;
+      var question = questions[currentQuestion];
+
+      if (selectedOption == question.answer) {
+        score++;
+      }
+
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        showNextQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      stopTimer();
+      questionElement.style.display = "none";
+      optionsElement.style.display = "none";
+      submitButton.style.display = "none";
+      timerElement.style.display = "none";
+      resultContainer.style.display = "block";
+      restartButton.style.display = "block";
+
+      resultElement.textContent = "Obtuviste " + score + " de " + questions.length + " respuestas correctas.";
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+
+      questionElement.style.display = "block";
+      optionsElement.style.display = "block";
+      submitButton.style.display = "block";
+      timerElement.style.display = "block";
+      resultContainer.style.display = "none";
+      restartButton.style.display = "none";
+
+      showNextQuestion();
+    }
+
+    function startTimer() {
+      timeLeft = 15;
+      updateTimer();
+
+      timer = setInterval(function () {
+        timeLeft--;
+        updateTimer();
+
+        if (timeLeft === 0) {
+          stopTimer();
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
+            showNextQuestion();
+          } else {
+            showResult();
+          }
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timer);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timerElement.textContent = "Tiempo restante: 15 segundos";
+    }
+
+    function updateTimer() {
+      timerElement.textContent = "Tiempo restante: " + timeLeft + " segundos";
+    }
+
+    submitButton.addEventListener("click", selectAnswer);
+
+    restartButton.addEventListener("click", restartQuiz);
+
+    showNextQuestion();
+  </script>
+</body>
+</html>
